@@ -8,7 +8,6 @@ Vue.use(webSocketService, {
 	store,
 	router,
 	url: window.webpackHotUpdate ? 'ws://localhost:1339/ws': `ws://${window.location.host}/ws`
-
   })
 
 console.log(`ws://${window.location.host}/ws`)
@@ -25,8 +24,6 @@ function mobileVhFix () {
 }
 
 mobileVhFix()
-
-
 
 new Vue({
   router,
