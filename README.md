@@ -1,34 +1,23 @@
-# q20
+# q20 - 20 Questions game
 
-## Project setup
-```
-npm install
-```
+The app consists of a vue client and a websocket-based server app. 
+The design is a single service providing static data along with websocket-based API at the same TCP-port.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+install.sh is a deployer executing three steps to run the container:
 
-### Compiles and minifies for production
 ```
-npm run build
+docker build -t q20app .
+docker create -it -p 8080:1339 --name q20app q20app
+docker start q20app
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
+When started, http://localhost:8080 is serving the game. Initially, the game is asking to think a word, which is to be typed in, and starting the game session.
+When the session is started, another player can join it at http://<instance ip>:8080. To avoid playing a wrong role, the second player is expected to join the session either from another device or from an incognito window.
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
+The guessing process server response is automated, so that there is no need to answer yes or no to obvious questions.
 
-### Lints and fixes files
-```
-npm run lint
-```
+# Cleanup
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+For convenience, there is a cleanup script cleanup.sh removing game containers and images.
+
+

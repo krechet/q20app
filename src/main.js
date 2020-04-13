@@ -15,12 +15,18 @@ console.log(`ws://${window.location.host}/ws`)
 
 Vue.config.productionTip = false
 
-export function mobileVhFix () {
+console.log('Fixing mobile vh issue')
+
+function mobileVhFix () {
 	window.addEventListener('resize', () => {
 	  let vh = window.innerHeight * 0.01;
 	  document.documentElement.style.setProperty('--vh', `${vh}px`);
 	});
 }
+
+mobileVhFix()
+
+
 
 new Vue({
   router,

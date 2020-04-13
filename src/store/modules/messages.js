@@ -3,19 +3,20 @@ const namespaced = true
 const state = {
   items: {},
   role: 'player',
+  word: null,
   questionsDisabled: false,
   gameStopped: false
 }
 
 const getters = {
 
-  getItems: state => {
+  /*getItems: state => {
     return state.items
   },
 
   getRole: state => {
     return state.role
-  }
+  }*/
 }
 
 const mutations = {
@@ -26,6 +27,10 @@ const mutations = {
 
   setRole: (state, role) => {
     state.role = role
+  },
+
+  setWord: (state, word) => {
+    state.word = word
   },
 
   disableQuestions: (state) => {
@@ -50,6 +55,12 @@ const actions = {
     }
   },
 
+  setWord: ({commit}, payload) => {
+    if(payload) {
+      commit('setWord', payload)
+    }
+  },  
+
   DISABLE_QUESTIONS: ({commit}) => {
      commit('disableQuestions')
   },
@@ -63,7 +74,7 @@ const actions = {
 export default {
   namespaced,
   state,
-  getters,
+  //getters,
   mutations,
   actions
 }

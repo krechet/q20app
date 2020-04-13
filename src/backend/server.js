@@ -93,7 +93,8 @@ wsServer.on('request', function(request) {
 				ch.sendUTF(JSON.stringify({
 					type: 'SESSION_STARTED',
 					session_id: sid,
-					session_key: key
+					session_key: key,
+					word: msg.word
 				}))
 
 				return
@@ -148,7 +149,6 @@ wsServer.on('request', function(request) {
 	
 						session.messages[_msg.id] = _msg
 						broadcast(session, _msg)
-						return
 
 					} else if(session.questionsDisabled) {
 

@@ -72,20 +72,22 @@ webSocketsService.install = function (Vue, options) {
 
     if(msg.type === 'SESSION_STARTED' && msg.session_id) {
       setCookie('session_key', msg.session_key, 1)
+      setCookie('session_word', msg.word, 1)
       options.store.dispatch('messages/setRole', 'owner')
+      options.store.dispatch('messages/setWord', msg.word)
       options.router.push(`/session/${msg.session_id}`)
       return
     }
 
     if(msg.type === 'SESSION_CONNECTED' && msg.session_key) {
 
-      console.log(getCookie('session_key'), msg.session_key)
       if(getCookie('session_key') !== msg.session_key){
         console.log('PLAYER')
         clearAllCookies()
         options.store.dispatch('messages/setRole', 'player')
       }else{
         options.store.dispatch('messages/setRole', 'owner')
+        options.store.dispatch('messages/setWord', getCookie('session_word'))
       }
       return
     }
