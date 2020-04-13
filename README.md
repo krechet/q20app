@@ -20,7 +20,7 @@ docker start q20app
 When started, http://localhost:8080 is serving the game. Initially, the game is asking to think a word, which is to be typed in, and starts the game session.
 When the session is started, another player can join it at http://HOST_EXTERNAL_ADDRESS:8080, with an appropriate host name or ip. To avoid playing a wrong role, the second player is expected to join the session either from another device or from an incognito window.
 
-The guessing process server response process is automated, so that there is no need to answer yes or no to obvious questions.
+The word guessing server response process is automated, so that there is no need to answer yes or no to obvious questions.
 
 # Cleanup
 
