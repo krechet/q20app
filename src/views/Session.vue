@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper">
 	<h2>20Q Game Session ID: {{session_id}}</h2>
+	<h3 v-if="!sessionStarted && $store.state.messages.role === 'owner'">
+		Ask Player 2 to join the session (ID:{{session_id}})
+	</h3>
 	<QuestionItems 
 		:items="Object.keys($store.state.messages.items).map(k => $store.state.messages.items[k]).sort( (a,b) => ( a.timestamp<b.timestamp ? 1 : (a.timestamp>b.timestamp ? -1 : 0) ))"
 	  	@submitAnswer='submitAnswer'
@@ -46,6 +49,10 @@ export default {
 			let i = this.$store.state.messages.items[k]
 			return i.type === 'question' && !i.answer
 		})
+	},
+
+	sessionStarted() {
+		return this.$store.state.messages.items && Object.keys(this.$store.state.messages.items).length
 	}
 
   },

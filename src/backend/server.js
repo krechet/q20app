@@ -1,33 +1,31 @@
-var WebSocketServer = require('websocket').server;
-var http = require('http');
+const WebSocketServer = require('websocket').server;
+const http = require('http');
+const path = require('path');
+const express = require('express');
 
-const MAX_QUESTIONS = 3
+const MAX_QUESTIONS = 20
 
-var server = http.createServer(function(request, response) {
+const app = express()
+app.use(express.static('../../dist'));
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
+  });
+
+
+const server = http.createServer(app);
+server.listen(1339, function() { 
+	console.log('Listening')
 });
 
-server.listen(1339, function() { });
 
 const wsServer = new WebSocketServer({
-	httpServer: server
+	httpServer: server,
+	path: 'ws'
 });
 
-function uuidv4() {
-	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	  var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-	  return v.toString(16);
-	});
-  }
 
 let channels = []
-
 let session_id_seq = 1
-
-
-function broadcast(session, msg) {
-	session.channels.forEach(ch => ch.sendUTF(JSON.stringify(msg)))
-}
-
 let sessions = {}
 
 wsServer.on('request', function(request) {
@@ -48,8 +46,6 @@ wsServer.on('request', function(request) {
 			if(msg.type === 'CONNECT') {
 
 				if(msg.session_id && sessions[msg.session_id]) {
-
-					console.log('requested connection, sending items')
 
 					sessions[msg.session_id].channels.push(ch)
 
@@ -177,17 +173,12 @@ wsServer.on('request', function(request) {
 
 				} else if(msg.type === 'question') {
 
-					console.log('-->')
-
 					if(!!Object.keys(session.messages).find(k => {
 						let i = session.messages[k]
 						return i.type === 'question' && !i.answer
 					})){
 						return
 					}
-
-					console.log('-->2', msg)
-
 
 					msg.question_number = ++session.total_questions
 
@@ -221,3 +212,16 @@ wsServer.on('request', function(request) {
 
 	channels.push(ch)
 });
+
+// Tools
+
+function uuidv4() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	  let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	  return v.toString(16);
+	});
+  }
+
+  function broadcast(session, msg) {
+	session.channels.forEach(ch => ch.sendUTF(JSON.stringify(msg)))
+}  

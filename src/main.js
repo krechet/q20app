@@ -7,8 +7,11 @@ import webSocketService from './services/webSocketService'
 Vue.use(webSocketService, {
 	store,
 	router,
-	url: 'ws://localhost:1339'
+	url: window.webpackHotUpdate ? 'ws://localhost:1339/ws': `ws://${window.location.host}/ws`
+
   })
+
+console.log(`ws://${window.location.host}/ws`)
 
 Vue.config.productionTip = false
 

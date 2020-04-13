@@ -79,11 +79,13 @@ webSocketsService.install = function (Vue, options) {
 
     if(msg.type === 'SESSION_CONNECTED' && msg.session_key) {
 
-      console.log(getCookie('sid'), msg.session_key)
+      console.log(getCookie('session_key'), msg.session_key)
       if(getCookie('session_key') !== msg.session_key){
         console.log('PLAYER')
         clearAllCookies()
         options.store.dispatch('messages/setRole', 'player')
+      }else{
+        options.store.dispatch('messages/setRole', 'owner')
       }
       return
     }
