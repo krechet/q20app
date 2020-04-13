@@ -1,4 +1,4 @@
-FROM node:10
+FROM mhart/alpine-node:12
 WORKDIR /app
 COPY ./ /app
 EXPOSE 1339
