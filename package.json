@@ -11,7 +11,7 @@
     "app": "cd src/backend; node server.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
     "express-static": "^1.2.6",
